@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const { connectdb } = require('./config/databse');
+const { connectdb } = require('./config/database');
 const user = require('./models/user')
 // Route Handlers
 
