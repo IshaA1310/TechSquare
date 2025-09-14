@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node src/app.js",
-    "start": "nodemon src/app.js"
+    "start": "nodemon practice/app.js"
   },
   "author": "Isha Aggarwal",
   "license": "ISC",
