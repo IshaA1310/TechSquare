@@ -1,15 +1,18 @@
 const express = require('express');
 const app = express();
-
+const { connectdb } = require('./config/databse');
+const user = require('./models/user')
 // Route Handlers
-app.use('/test', (req, res) => {
-    res.send('Hey Test')
-})
 
 app.use('/', (req, res) => {
     res.send('Hello')
 })
 
-app.listen(7777, (req, res) => {
-    console.log('server is running on port 7777');
-})
+connectdb().then(()=> {
+    console.log('connected to database successfully');
+    app.listen(7777, (req, res) => {
+        console.log('server is running on port 7777');
+    })
+}).catch((err) => {
+    console.log(err, ' error!')
+});
