@@ -1,17 +1,22 @@
 const User = require('../models/user');
 
-const validateNewData = async function (data) {
+const validateNewData = function (data) {
+  console.log('utils, auth ?', data)
   const allowedKeys = ['firstName', 'lastName', 'password', 'email', 'age'];
   const datakeys = Object.keys(data);
 
   const isAllowedkeys = Object.keys(allowedKeys).includes(datakeys);
   return isAllowedkeys;
 }
-const validateLoginData = async function (data) {
-  
+const validateLoginData = function (data) {
+  const allowedKeys = ['email', 'password'];
+  const dataKeys = Object.keys(data);
+
+  const isAllowedkeys = Object.keys(allowedKeys).includes(dataKeys);
+  return isAllowedkeys;
 }
 
-exports.module = {
+module.exports = {
   validateNewData,
   validateLoginData
-}
+};

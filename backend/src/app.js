@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
 const { connectdb } = require('./config/database');
+const authRouter = require('./routes/authRoute')
 const user = require('./models/user')
 // Route Handlers
 
-app.use('/', (req, res) => {
-    res.send('Hello')
-})
+// app.use('/', (req, res,next) => {
+//     next();
+//     res.send('Hello');
+// })
+
+app.use('/', authRouter);
 
 connectdb().then(()=> {
     console.log('connected to database successfully');
