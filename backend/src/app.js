@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const { connectdb } = require('./config/database');
-const authRouter = require('./routes/authRoute')
-const user = require('./models/user')
+const authRouter = require('./routes/authRoute');
+const requestRouter = require('./routes/requestRoute');
+const user = require('./models/user');
 // Route Handlers
 
 // app.use('/', (req, res,next) => {
@@ -11,6 +12,7 @@ const user = require('./models/user')
 // })
 
 app.use('/', authRouter);
+app.use('/', requestRouter);
 
 connectdb().then(()=> {
     console.log('connected to database successfully');
