@@ -11,3 +11,6 @@ Profile Router
 Connection router
 /connection/request/:status/:toUserId
 /connection/request/review/:status/:user
+
+User router
+/user/requests/received
