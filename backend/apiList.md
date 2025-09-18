@@ -9,8 +9,5 @@ Profile Router
 /profile/password
 
 Connection router
-/connection/request/
-/connection/request/
-/connection/request/
-/connection/request/
-
+/connection/request/:status/:toUserId
+/connection/request/review/:status/:user

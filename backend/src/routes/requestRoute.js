@@ -32,3 +32,26 @@ requestRouter.post('/connection/request/:status/:toUser', userAuth, async functi
     return res.status(500).send('Error from Server!');
   }
 });
+
+requestRouter.post('/request/review/:status/:user', userAuth, async (req, res) => {
+  try {
+    const {status, user} = req.params;
+    const allowedStatus = ['accepted', 'rejected'];
+    if(allowedStatus.includes(status)) return res.status(400).send('status is not valid!');
+    const existUser = await User.findOne({ fromUserId: user });
+    if(!existUser) return res.status(400).send('User not found!');
+    const existRequest = await ConnectionRequest.findOne({
+      fromUserId: existUser._id,
+      toUserId: req.user._id,
+      status: 'interested'
+    });
+    if(!existRequest) return res.status(400).send('Connection Request not found!');
+    existRequest.status = status;
+    const data = await existRequest.save();
+    return res.status(201).send({ message: 'Request has been '+ status +' successfully!', data: data });
+  } catch(err) {
+    return res.status(500).send('Error from server!');
+  }
+});
+
+module.exports = requestRouter;
