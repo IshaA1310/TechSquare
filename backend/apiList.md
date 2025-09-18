@@ -14,3 +14,4 @@ Connection router
 
 User router
 /user/requests/received
+/user/connections
