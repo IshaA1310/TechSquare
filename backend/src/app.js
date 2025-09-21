@@ -5,13 +5,17 @@ const authRouter = require('./routes/authRoute');
 const requestRouter = require('./routes/requestRoute');
 const userRouter = require('./routes/userRoute');
 const user = require('./models/user');
+const cors = require('cors');
 // Route Handlers
 
 // app.use('/', (req, res,next) => {
 //     next();
 //     res.send('Hello');
 // })
-
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 app.use('/', authRouter);
 app.use('/', requestRouter);
 app.use('/', userRouter);
