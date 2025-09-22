@@ -3,18 +3,22 @@ import NavBar from "./NavBar"
 import Base from "./Base"
 import Login from "./Login"
 import Profile from "./Profile"
-function App() {
+import appStore from "./utils/appStore"
+import { Provider } from "react-redux"
 
+function App() {
   return (
     <>
-      <BrowserRouter basename='/'>
-        <Routes>
-          <Route path='/' element={<Base/>}>
-            <Route path='/login' element={<Login/>}></Route>
-            <Route path='/profile' element={<Profile/>}></Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Provider store={appStore}>
+        <BrowserRouter basename='/'>
+          <Routes>
+            <Route path='/' element={<Base/>}>
+              <Route path='/login' element={<Login/>}></Route>
+              <Route path='/profile' element={<Profile/>}></Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Provider>
       {/* <NavBar/> */}
       {/* <h1 className="text-4xl">Hello World!</h1> */}
     </>

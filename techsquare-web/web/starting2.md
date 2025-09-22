@@ -1,8 +1,18 @@
 Make Login page with the help of daisyUI components and tailwind css
 define useState() for set email & password
+onchange{(event) => setEmailId(event.taregt.value)}
+onchange{(event) => setPassword(event.target.value)}
+onclick={handleLogin}
+
 install axios package for api call
 then handleLogin() axios.post('http://localhost:5173/login', {formData} {withCredentials: true})
-if without {withCredentials} then it will set into application cookies our login token.
+if without {withCredentials} then it will not set into application cookies our login token.
+
+Install 👉 Reactjs/toolkit + react-redux
+make store file appStore.js 👉 configureStore({ reducer:{} });
+app.jsx 👈 provider this store
+create slices (multiple slices) 👉 UserSlice createSlice({});
+
 
 🔙 Backend side issue with CORS 🔙
 
