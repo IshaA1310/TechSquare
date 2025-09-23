@@ -1,23 +1,27 @@
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addUser } from "./utils/userSlice";
-const Login = () => {
+import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
 
+const Login = () => {
   const [emailId, setEmailId] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      console.log('hi')
-      const res = await axios.post('http://localhost:7777/login', {emailId, password}, { withCredentials: true });
+      const res = await axios.post( BASE_URL + '/login', {emailId, password}, { withCredentials: true });
       console.log(res, 'result');
       dispatch(addUser(res.data.data))
+      return navigate("/");
     } catch (err) {
       console.log(err, 'error')
     }
   }
+  
   return (
     <div className="place-items-center-safe my-15">
       <div className="card card-dash bg-base-300 w-96">
