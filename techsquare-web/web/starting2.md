@@ -12,6 +12,9 @@ Install 👉 Reactjs/toolkit + react-redux
 make store file appStore.js 👉 configureStore({ reducer:{} });
 app.jsx 👈 provider this store
 create slices (multiple slices) 👉 UserSlice createSlice({});
+Add redux devtools in your chrome browser
+Login & see your data is coming proprly or not
+Navbar should update after login
 
 After Login then, navigate to feed page 🛞 /login -> / {feed}
 useNavigate (hook)
@@ -20,7 +23,6 @@ then define feed page route ©️
 👉Then, we are doing some refactoring into our project structure and code👈
 1. Constants url define into another file just like (.env)
 2. In react, we are worked under the components.
-3. 
 
 🔙 Backend side issue with CORS 🔙
 bcz we have 2 diff port number with same origin.
