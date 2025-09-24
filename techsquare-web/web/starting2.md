@@ -1,11 +1,11 @@
 Make Login page with the help of daisyUI components and tailwind css
 define useState() for set email & password
-onchange{(event) => setEmailId(event.taregt.value)}
+onchange{(event) => setEmailId(event.target.value)}
 onchange{(event) => setPassword(event.target.value)}
 onclick={handleLogin}
 
 install axios package for api call
-then handleLogin() axios.post('http://localhost:5173/login', {formData} {withCredentials: true})
+then handleLogin() axios.post('http://localhost:7777/login', {formData} {withCredentials: true})
 if without {withCredentials} then it will not set into application cookies our login token.
 
 Install 👉 Reactjs/toolkit + react-redux
@@ -13,7 +13,7 @@ make store file appStore.js 👉 configureStore({ reducer:{} });
 app.jsx 👈 provider this store
 create slices (multiple slices) 👉 UserSlice createSlice({});
 Add redux devtools in your chrome browser
-Login & see your data is coming proprly or not
+Login & see your data is coming properly or not
 Navbar should update after login
 
 After Login then, navigate to feed page 🛞 /login -> / {feed}
