@@ -9,17 +9,17 @@ authRouter.post('/signup', async (req, res) => {
   try {
     console.log(req.body, 'req.body')
     if(validateNewData(req.body)) {
-      const { firtsName, lastName, email, age, password } = req.body;
-      const hashPassword = bcrypt.hash(password, 10) ;
+      const { firstName, lastName, email, age, password } = req.body;
+      const hashPassword = await bcrypt.hash(password, 10);
       let newUser = new User({
-        firtsName,
+        firstName,
         lastName,
         email,
         age,
         password: hashPassword
       });
       await newUser.save();
-      res.status(200).send('User created Successfully!');
+      res.status(200).send({message:'User created Successfully!'});
     } else {
       return res.status(401).send('Error found in Request!');
     }
@@ -42,8 +42,14 @@ authRouter.post('/login', async (req, res) => {
 
       const token = jwt.sign({_id:user._id}, 'ADFHJKLIUYTREW98UKMNBV', {expiresIn: '1d'});
 
-      console.log(token, 'tokenn')
-      return res.status(201).cookie(token).send('Login successfully!');
+      const data = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        photoUrl: user.photoUrl
+      }
+      // return res.status(201).cookie(token).send({message: 'Login successfully!', token: token});
+      return res.status(201).send({ message: 'Login successfully', token: token, data: data});
 
     } else {
       return res.status(401).send('Error found in Request!');
@@ -51,10 +57,10 @@ authRouter.post('/login', async (req, res) => {
   } catch (err) {
     res.status(200).send({
       message: 'Error from server!', 
-      data: {
-        name: 'Isha',
-        photoUrl: 'https://static.vecteezy.com/system/resources/previews/044/419/658/non_2x/yellow-smiling-ball-wearing-a-straw-hat-in-a-sunny-field-of-flowers-showing-happiness-and-joy-in-nature-photo.jpeg'
-      }
+      // data: {
+      //   name: 'Isha',
+      //   photoUrl: 'https://static.vecteezy.com/system/resources/previews/044/419/658/non_2x/yellow-smiling-ball-wearing-a-straw-hat-in-a-sunny-field-of-flowers-showing-happiness-and-joy-in-nature-photo.jpeg'
+      // }
     });
   }
 });

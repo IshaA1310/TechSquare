@@ -1,6 +1,9 @@
 firtsly create vite + react app
-then remove uneccesary code from folder
+then remove uneccesary code from folder (Hello world)
+
 Install tailwind library & import in our project
+(two files created -> eslint.config.js & vite.config.js)
+
 Install Daisy UI & used as plugins
 separate navbar jsx file
 using es6 modules (import and export)

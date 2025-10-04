@@ -2,19 +2,19 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmailId] = useState('isha@yopmail.com');
+  const [password, setPassword] = useState('Isha@123');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post( BASE_URL + '/login', {emailId, password}, { withCredentials: true });
-      console.log(res, 'result');
+      const res = await axios.post( BASE_URL + '/login', {email, password},{withCredentials: true});
+      localStorage.setItem('token', res.data.token);
       dispatch(addUser(res.data.data))
       return navigate("/");
     } catch (err) {
@@ -29,7 +29,7 @@ const Login = () => {
           <h2 className="card-title justify-center text-2xl">LOGIN</h2>
           <fieldset className="fieldset">
             <legend className="fieldset-legend text-base">Email</legend>
-            <input type="text" value={emailId} className="input" placeholder="Type here" onChange={(e) => setEmailId(e.target.value)} />
+            <input type="text" value={email} className="input" placeholder="Type here" onChange={(e) => setEmailId(e.target.value)} />
           </fieldset>
           <fieldset className="fieldset">
             <legend className="fieldset-legend text-base">Password</legend>
@@ -50,6 +50,10 @@ const Login = () => {
           </fieldset>
           <div className="card-actions justify-center my-2">
             <button className="btn btn-primary" onClick={handleLogin}>Login</button>
+          </div>
+          <div className="card-actions justify-center text-base">
+            <span>Don't have an account? </span>
+            <span className="font-medium"><Link to="/signup">Signup</Link></span>
           </div>
         </div>
       </div>
