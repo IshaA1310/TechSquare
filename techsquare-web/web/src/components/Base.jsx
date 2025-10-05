@@ -12,10 +12,10 @@ const Base = () => {
   const navigate = useNavigate();
 
   const userData = useSelector((store)=> store.user);
+  const BEARER_TOKEN = localStorage.getItem('token');
 
   const fetchUser = async () => {
     try {
-      const BEARER_TOKEN = localStorage.getItem('token');
       if(!BEARER_TOKEN) navigate('/login');
       const res = await axios.get(BASE_URL + '/profile/view', {
         headers: {

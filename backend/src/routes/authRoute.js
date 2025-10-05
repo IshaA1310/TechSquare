@@ -7,7 +7,6 @@ const { validateNewData, validateLoginData } = require('../utils/auth')
 
 authRouter.post('/signup', async (req, res) => {
   try {
-    console.log(req.body, 'req.body')
     if(validateNewData(req.body)) {
       const { firstName, lastName, email, age, password } = req.body;
       const hashPassword = await bcrypt.hash(password, 10);
@@ -24,7 +23,6 @@ authRouter.post('/signup', async (req, res) => {
       return res.status(401).send('Error found in Request!');
     }
   } catch(err) {
-    console.log(err, 'errrr')
     res.status(500).json({ message: 'Error from server', data: err});
   }
 });
@@ -66,7 +64,15 @@ authRouter.post('/login', async (req, res) => {
 });
 
 authRouter.patch('/logout', (req, res) => {
-
+  try {
+    console.log(req.headers.authorization, 'req.headers.authorization')
+    res.cookie(req.headers.authorization, null, {
+      expires: new Date(Date.now())
+    });
+    res.send({ message: 'Logout successfull!' });
+  } catch(err) {
+    return res.status(500).send({ message: 'Error from server', data: null});
+  }
 })
 
 module.exports = authRouter;

@@ -1,14 +1,11 @@
 const User = require('../models/user');
 
 const validateNewData = function (data) {
-  console.log('utils, auth ?', data)
   const allowedKeys = ['firstName', 'lastName', 'password', 'email', 'age'];
   const datakeys = Object.keys(data);
-  console.log(datakeys, 'datakeys')
 
   // const isAllowedkeys = Object.keys(allowedKeys).includes(datakeys);
   const isAllowedkeys = datakeys.every(key => allowedKeys.includes(key));
-  console.log(isAllowedkeys, 'isAllowedkeys')
   return isAllowedkeys;
 }
 const validateLoginData = function (data) {

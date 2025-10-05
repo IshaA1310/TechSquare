@@ -1,8 +1,33 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants"
+import { removeUser } from "../utils/userSlice"
 
 const Navbar = () => {
+
   const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try{
+      const BearerToken = localStorage.getItem('token');
+      await axios.patch(BASE_URL + '/logout', {
+        headers: {
+          'authorization': BearerToken
+        },
+        withCredentials: true
+      })
+      localStorage.removeItem('token');
+      dispatch(removeUser());
+      return navigate('/login');
+
+    } catch(error) {
+      // may be error page we have to show
+    }
+  }
+
   return (
     <>
     <div className="navbar bg-base-300 shadow-sm">
@@ -26,7 +51,7 @@ const Navbar = () => {
                 <Link to="/profile" className="justify-between">Profile</Link>
               </li>
               <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li><a onClick={handleLogout}>Logout</a></li>
             </ul>
           </div>
         </div>) }

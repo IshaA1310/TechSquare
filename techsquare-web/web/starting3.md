@@ -13,3 +13,9 @@ body-parser, cookie-parser
 
 we should not be able to access any pages or routes until authenticate.
 If token, is not present then redirect to login page.
+
+Built Logout Feature
+Add dynamic error as a message pop-up.
+
+🪶 feat: logout (feature)
+🪲 bug: email (corrected bug)

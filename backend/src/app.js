@@ -15,17 +15,19 @@ const cors = require('cors');
 //     next();
 //     res.send('Hello');
 // })
+
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
 }));
+
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded());
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 app.use('/', authRouter);
 app.use('/', requestRouter);
@@ -38,5 +40,5 @@ connectdb().then(()=> {
         console.log('server is running on port 7777');
     })
 }).catch((err) => {
-    console.log(err, ' error!')
+    console.log(err, ' error!');
 });
