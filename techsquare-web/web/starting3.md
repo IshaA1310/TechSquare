@@ -19,3 +19,7 @@ Add dynamic error as a message pop-up.
 
 🪶 feat: logout (feature)
 🪲 bug: email (corrected bug)
+
+Next feature is Feed Page API.
+feedStore -> feedSlice().
+read feed data.

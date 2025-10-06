@@ -6,7 +6,9 @@ const userSchema = new mongoose.Schema({
   email: {type: String, required: true},
   age: {type: Number, default: 0},
   password: {type: String, required: true},
-  photoUrl: {type: String, default: ''}
+  photoUrl: {type: String, default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&s'},
+  about: {type: String, default: 'This is a default about'},
+  skills: {type: [String], default: ['Javascript', 'HTML', 'CSS']}
 });
 
 const User = mongoose.model('User', userSchema);

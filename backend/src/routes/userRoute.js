@@ -4,7 +4,7 @@ const userAuth = require('../middleware/userAuth');
 const ConnectionRequest = require('../models/connectionRequest');
 const User = require('../models/user');
 
-const SPECIFIC_FIELDS = ['firstName', 'lastName'];
+const SPECIFIC_FIELDS = ['firstName', 'lastName', 'age', 'skills', 'photoUrl', 'about'];
 userRouter.get('/user/requests/received', userAuth, async (req, res) => {
   try {
     const user = req.user._id;
@@ -42,39 +42,44 @@ userRouter.get('/user/connections', userAuth, async (req, res) => {
   }
 });
 
-userRouter.get('/feed', async (req, res) => {
+userRouter.get('/feed', userAuth, async (req, res) => {
 
-  const loggedInUser = req.user._id;
+  try {
+    const loggedInUser = req.user._id;
 
-  const page = parseInt(req.query.page) || 1;
-  let limit = parseInt(req.query.limit) || 10;
-  limit = limit > 50 ? 50 : limit;
-  const skip = (page-1)*limit;
+    const page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
+    limit = limit > 50 ? 50 : limit;
+    const skip = (page-1)*limit;
 
-  const connectionRequests = await ConnectionRequest.find({
-    $or:[
-      { fromUserId: loggedInUser._id },
-      { toUserId: loggedInUser._id }
-    ]
-  }).select(SPECIFIC_FIELDS);
+    const connectionRequests = await ConnectionRequest.find({
+      $or:[
+        { fromUserId: loggedInUser._id },
+        { toUserId: loggedInUser._id }
+      ]
+    }).select(SPECIFIC_FIELDS);
 
-  const hideUsers = new Set();
-  connectionRequests.forEach((request) => {
-    hideUsers.add(request.fromUserId.toString());
-    hideUsers.add(request.toUserId.toString());
-  });
+    const hideUsers = new Set();
+    connectionRequests.forEach((request) => {
+      hideUsers.add(request.fromUserId.toString());
+      hideUsers.add(request.toUserId.toString());
+    });
 
-  const userList = await User.find({
-    $and: [
-      {_id: {$nin: Array.from(hideUsers)}},
-      {_id: {$ne: loggedInUser._id}}
-    ]
-  }).select(SPECIFIC_FIELDS).skip(skip).limit(limit);
+    const userList = await User.find({
+      $and: [
+        {_id: {$nin: Array.from(hideUsers)}},
+        {_id: {$ne: loggedInUser._id}}
+      ]
+    }).select(SPECIFIC_FIELDS).skip(skip).limit(limit);
 
-  return res.status(200).send({
-    message: 'user data fetch successfully!',
-    data: userList
-  });
+    return res.status(200).send({
+      message: 'user data fetch successfully!',
+      data: userList
+    });
+  } catch (err) {
+
+  }
+
 
 });
 module.exports = userRouter;
