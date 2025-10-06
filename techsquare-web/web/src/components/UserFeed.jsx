@@ -9,6 +9,7 @@ const UserFeed = ({user}) => {
           {user.firstName + " " + user.lastName}
           <div className="badge badge-accent">{user.skills[0]}</div>
         </h2>
+        <p>Age: {user.age}</p>
         <p>{user.about}</p>
         <div className="card-actions justify-end">
           <button className="btn btn-secondary">Ignore</button>

@@ -22,4 +22,6 @@ Add dynamic error as a message pop-up.
 
 Next feature is Feed Page API.
 feedStore -> feedSlice().
-read feed data.
+add feed in the store.
+read feed from store.
+build the user feed card
