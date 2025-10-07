@@ -7,6 +7,8 @@ import appStore from "./utils/appStore"
 import { Provider } from "react-redux"
 import Feed from "./components/Feed"
 import Signup from "./components/Signup"
+import EditProfile from "./components/EditProfile"
+import UserList from "./components/userList"
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
               <Route path='/login' element={<Login/>}></Route>
               <Route path='/profile' element={<Profile/>}></Route>
               <Route path="/signup" element={<Signup/>}></Route>
+              <Route path="/editProfile" element={<EditProfile/>}></Route>
+              <Route path="/userList" element={<UserList/>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>
@@ -29,4 +33,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

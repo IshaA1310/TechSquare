@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
   password: {type: String, required: true},
   photoUrl: {type: String, default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&s'},
   about: {type: String, default: 'This is a default about'},
-  skills: {type: [String], default: ['Javascript', 'HTML', 'CSS']}
+  skills: {type: [String], default: ['Javascript', 'HTML', 'CSS']},
+  gender: {type: String, enum: ['male', 'female', 'others'], default: 'male'}
 });
 
 const User = mongoose.model('User', userSchema);

@@ -2,10 +2,11 @@ Auth Router
 /signup
 /login
 /logout
+/usersList
 
 Profile Router
 /profile/view
-/profile/eidt
+/profile/edit
 /profile/password
 
 Connection router
