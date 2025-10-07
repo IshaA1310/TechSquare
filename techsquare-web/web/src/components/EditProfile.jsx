@@ -19,6 +19,7 @@ const EditProfile = () => {
   const [about, setAbout] = useState(user.about);
   const [photoUrl, setphotoUrl] = useState(user.photoUrl);
   const [error, setError] = useState('');
+  const [toast, setToast] = useState(false);
   const BearerToken = localStorage.getItem('token');
 
   const back = () => {
@@ -43,9 +44,11 @@ const EditProfile = () => {
         withCredentials: true
       });
       dispatch(addUser(res.data.data));
-      if(res) navigate('/profile');
+      setToast(true);
+      setTimeout(()=> {
+        setToast(false);
+      }, 2000);
     } catch (error) {
-      // console.error(error);
       setError(error.message);
     }
   }
@@ -75,25 +78,25 @@ const EditProfile = () => {
       <div className="place-items-center-safe mx-2">
         <div className="card card-dash bg-base-300 w-96 mx-6">
           <div className="card-body">
-            {/* <h2 className="card-title justify-center text-2xl">REGISTER YOURSELF!!</h2> */}
+            {/* <h2 className="card-title justify-center text-2xl">EDIT PROFILE</h2> */}
             <fieldset className="fieldset">
-              <legend className="fieldset-legend text-sm">FirstName</legend>
+              <legend className="fieldset-legend text-base">FirstName</legend>
               <input type="text" value={firstName} className="input" placeholder="Type here" onChange={(e) => setFirstName(e.target.value)} required />
             </fieldset>
             <fieldset className="fieldset">
-              <legend className="fieldset-legend text-sm">LastName</legend>
+              <legend className="fieldset-legend text-base">LastName</legend>
               <input type="text" value={lastName} className="input" placeholder="Type here" onChange={(e) => setLastName(e.target.value)} required />
             </fieldset>
             <fieldset className="fieldset">
-              <legend className="fieldset-legend text-sm">Age</legend>
-              <input type="Number" value={age} className="input" placeholder="Type here" onChange={(e) => setAge(e.target.value)} required />
-            </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend text-sm">Photo Url</legend>
+              <legend className="fieldset-legend text-base">Photo Url</legend>
               <input type="text" value={photoUrl} className="input" placeholder="Type here" onChange={(e) => setphotoUrl(e.target.value)} required />
             </fieldset>
             <fieldset className="fieldset">
-              <legend className="fieldset-legend text-sm">Gender</legend>
+              <legend className="fieldset-legend text-base">Age</legend>
+              <input type="Number" value={age} className="input" placeholder="Type here" onChange={(e) => setAge(e.target.value)} required />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-base">Gender</legend>
               <div>
                 <input type="radio" name="radio-1" value="male" className="radio radio-primary mx-1" onChange={(e) => setGender(e.target.value)} />Male 
                 <input type="radio" name="radio-1" value="female" className="radio radio-primary mx-1" onChange={(e) => setGender(e.target.value)} />Female 
@@ -101,7 +104,7 @@ const EditProfile = () => {
               </div>
             </fieldset>
             <fieldset className="fieldset">
-              <legend className="fieldset-legend text-sm">About</legend>
+              <legend className="fieldset-legend text-base">About</legend>
               <input type="text" value={about} className="input" placeholder="About" onChange={(e) => setAbout(e.target.value)} required />
               {/* <textarea className="textarea" value={about} placeholder="About" onChange={(e) => setAbout(e.target.value)}></textarea> */}
             </fieldset>
@@ -115,6 +118,11 @@ const EditProfile = () => {
       </div>
       {/* {photoUrl, firstName, lastName, about, age, gender} */}
       <UserFeed user={ {photoUrl, firstName, lastName, about, age, gender} }/>
+      {toast && <div className="toast toast-top toast-center">
+        <div className="alert alert-success">
+          <span>Profile updated successfully.</span>
+        </div>
+      </div>}
       {/* <UserFeed user={ user }/> */}
     </div>)
   )
