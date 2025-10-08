@@ -4,17 +4,17 @@ const userAuth = require('../middleware/userAuth');
 const ConnectionRequest = require('../models/connectionRequest');
 const User = require('../models/user');
 
-const SPECIFIC_FIELDS = ['firstName', 'lastName', 'age', 'skills', 'photoUrl', 'about'];
+const SPECIFIC_FIELDS = ['firstName', 'lastName', 'age', 'skills', 'photoUrl', 'about', 'gender'];
 userRouter.get('/user/requests/received', userAuth, async (req, res) => {
   try {
     const user = req.user._id;
-    const requests = ConnectionRequest.find({
+    const requests = await ConnectionRequest.find({
       toUserId: user,
-      status: 'interested'
+      status: 'Interested'
     }).populate('fromUserId', SPECIFIC_FIELDS);
     return res.status(201).send({message: 'Lists of requests', data: requests});
   } catch(err) {
-    return res.status(500).send('Error from server!');
+    return res.status(500).send({message: err.message });
   }
 });
 
@@ -24,8 +24,8 @@ userRouter.get('/user/connections', userAuth, async (req, res) => {
 
     const connections = await ConnectionRequest.find({ // isme particular user from field or to field m h
       $or: [
-        { fromUserId: loggedInUser._id, status: 'accepted' },
-        { toUserId: loggedInUser._id , status: 'accepted' }
+        { fromUserId: loggedInUser._id, status: 'Accepted' },
+        { toUserId: loggedInUser._id , status: 'Accepted' }
       ]
     }).populate('fromUserId', SPECIFIC_FIELDS).populate('toUserId', SPECIFIC_FIELDS);
 
@@ -61,25 +61,21 @@ userRouter.get('/feed', userAuth, async (req, res) => {
 
     const hideUsers = new Set();
     connectionRequests.forEach((request) => {
-      hideUsers.add(request.fromUserId.toString());
-      hideUsers.add(request.toUserId.toString());
+      hideUsers.add(request.fromUserId);
+      hideUsers.add(request.toUserId);
+      // hideUsers.add(request.fromUserId.toString());
+      // hideUsers.add(request.toUserId.toString());
     });
-
     const userList = await User.find({
       $and: [
         {_id: {$nin: Array.from(hideUsers)}},
         {_id: {$ne: loggedInUser._id}}
       ]
     }).select(SPECIFIC_FIELDS).skip(skip).limit(limit);
-
-    return res.status(200).send({
-      message: 'user data fetch successfully!',
-      data: userList
-    });
+    return res.status(200).send({ message: 'user data fetch successfully!', data: userList });
   } catch (err) {
-
+    return res.status(500).send({ message: err.message });
   }
-
-
 });
+
 module.exports = userRouter;

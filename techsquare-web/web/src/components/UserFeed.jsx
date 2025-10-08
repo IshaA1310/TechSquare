@@ -1,24 +1,67 @@
+import { useEffect, useState } from "react";
+import { BASE_URL } from "../utils/constants";
+import axios from "axios"
+
 const UserFeed = ({user}) => {
-  const {photoUrl, firstName, lastName, about, age, gender} = user;
+
+  const bearerToken = localStorage.getItem('token');
+  const [error, setError] = useState('');
+  const [toast, setToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const { photoUrl, firstName, lastName, about, age, gender, _id } = user;
+
+  const handleRequest = async(request) => {
+    try {
+      setError('');
+      let url = '';
+      if(request === 'Ignore') url = BASE_URL + `/connection/request/Ignored/${_id}`;
+      else if(request === 'Interested') url = BASE_URL + `/connection/request/Interested/${_id}`;
+
+      const res = await axios.post(url, request, {
+        headers: {
+          'authorization': bearerToken
+        },
+        withCredentials: true
+      });
+      setToastMessage(`Marked as ${request} Successfully!`)
+      setToast(true);
+      setTimeout(()=> {
+        setToast(false);
+        setToastMessage('');
+      },2000);
+
+    } catch(error) {
+      setError(error.message);
+    }
+  };
+
   return (
-    <div className="card bg-base-200 w-70 shadow-sm">
-      <figure>
-        <img src={photoUrl} alt="Photo" />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">
-          {firstName + " " + lastName}
-          {/* <div className="badge badge-accent">{skills[0]}</div> */}
-        </h2>
-        <div>
-          {age && gender && <p>{age}, {gender}</p>}
-          <p>{about}</p>
-        </div>
-        <div className="card-actions justify-end">
-          <button className="btn btn-secondary">Ignore</button>
-          <button className="btn btn-primary">Interested</button>
+    <div>
+      <div className="card bg-base-200 w-70 shadow-sm">
+        <figure>
+          <img src={photoUrl} alt="Photo" />
+        </figure>
+        <div className="card-body">
+          <h2 className="card-title">
+            {firstName + " " + lastName}
+            {/* <div className="badge badge-accent">{skills[0]}</div> */}
+          </h2>
+          <div>
+            {age && gender && <p>{age}, {gender}</p>}
+            <p>{about}</p>
+          </div>
+          <div className="card-actions justify-end">
+            <button className="btn btn-secondary" onClick={()=>handleRequest('Ignore')}>Ignore</button>
+            <button className="btn btn-primary" onClick={()=>handleRequest('Interested')}>Interested</button>
+          </div>
         </div>
       </div>
+      <p className="text-red-500">{error}</p>
+      {toast && <div className="toast toast-top toast-center">
+        <div className="alert alert-success">
+          <span>{toastMessage}</span>
+        </div>
+      </div>}
     </div>
   )
 };

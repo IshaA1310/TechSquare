@@ -4,6 +4,8 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants"
 import { removeUser } from "../utils/userSlice"
 import { removeFeed } from "../utils/feedSlice"
+import { removeConnection } from "../utils/connectionSlice"
+import { removeRequest } from "../utils/requestSlice"
 
 const Navbar = () => {
 
@@ -23,6 +25,8 @@ const Navbar = () => {
       localStorage.removeItem('token');
       dispatch(removeUser());
       dispatch(removeFeed());
+      dispatch(removeConnection());
+      dispatch(removeRequest());
       return navigate('/login');
 
     } catch(error) {
@@ -52,7 +56,8 @@ const Navbar = () => {
               <li>
                 <Link to="/profile" className="justify-between">Profile</Link>
               </li>
-              <li><a>Settings</a></li>
+              <li><Link to="/connections">Connections</Link></li>
+              <li><Link to="/requests">Requests</Link></li>
               <li><a onClick={handleLogout}>Logout</a></li>
             </ul>
           </div>

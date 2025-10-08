@@ -11,7 +11,7 @@ const Profile = () => {
   }
 
   return (
-    (userData && <div className="hero bg-base-300 my-15">
+    (userData && <div className="hero bg-base-200 my-15">
       <div className="hero-content flex-col lg:flex-row">
         <img
           src={userData.photoUrl}

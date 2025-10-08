@@ -1,16 +1,17 @@
 const express = require('express');
 const requestRouter = express.Router();
-
 const ConnectionRequest = require('../models/connectionRequest');
 const User = require('../models/user');
 const userAuth = require('../middleware/userAuth');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 requestRouter.post('/connection/request/:status/:toUser', userAuth, async function(req, res) {
   try {
     const toUser = await User.findOne({ _id: req.params.toUser }); // reciever user exists or not ?
     if(!toUser) return res.status(401).send('This user not register with us!');
     const status = req.params.status;
-    const allowedStatus = ['ignored', 'interested']; // two statues allowed only
+    const allowedStatus = ['Ignored', 'Interested']; // two statues allowed only
     if(!allowedStatus.includes(status)) return res.status(401).send('Invalid Status!');
     const fromUserId = req.user._id;
     const toUserId = toUser._id;
@@ -27,30 +28,31 @@ requestRouter.post('/connection/request/:status/:toUser', userAuth, async functi
       status
     }); // new instance
     connectionReq = await connectionReq.save(); // save into database
-    return res.status(201).send('Connection Request has Sent Successfully!');
+    return res.status(201).send({ message: `${status} Request has Sent Successfully!`});
   } catch (err) {
-    return res.status(500).send('Error from Server!');
+    return res.status(500).send({ message: err.message });
   }
 });
 
 requestRouter.post('/request/review/:status/:user', userAuth, async (req, res) => {
   try {
     const {status, user} = req.params;
-    const allowedStatus = ['accepted', 'rejected'];
-    if(allowedStatus.includes(status)) return res.status(400).send('status is not valid!');
-    const existUser = await User.findOne({ fromUserId: user });
-    if(!existUser) return res.status(400).send('User not found!');
+    const allowedStatus = ['Accepted', 'Rejected'];
+    console.log(user, ' user')
+    if(!allowedStatus.includes(status)) return res.status(400).send({ message: 'Status Not Valid!' });
+    const existUser = await User.findById(user);
+    if(!existUser) return res.status(400).send({ message: 'User Not Found!' });
     const existRequest = await ConnectionRequest.findOne({
       fromUserId: existUser._id,
       toUserId: req.user._id,
-      status: 'interested'
+      status: 'Interested'
     });
-    if(!existRequest) return res.status(400).send('Connection Request not found!');
+    if(!existRequest) return res.status(400).send({ message: 'Connection Request Not Found!' });
     existRequest.status = status;
     const data = await existRequest.save();
-    return res.status(201).send({ message: 'Request has been '+ status +' successfully!', data: data });
+    return res.status(201).send({ message: 'Request has been '+ status +' Successfully!', data: data });
   } catch(err) {
-    return res.status(500).send('Error from server!');
+    return res.status(500).send({ message: err.message });
   }
 });
 
