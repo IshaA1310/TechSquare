@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { BASE_URL } from "../utils/constants";
+import { removeOneFeed } from "../utils/feedSlice"
 import axios from "axios"
 
 const UserFeed = ({user}) => {
 
+  const dispatch = useDispatch();
   const bearerToken = localStorage.getItem('token');
   const [error, setError] = useState('');
   const [toast, setToast] = useState(false);
@@ -23,6 +26,7 @@ const UserFeed = ({user}) => {
         },
         withCredentials: true
       });
+
       setToastMessage(`Marked as ${request} Successfully!`)
       setToast(true);
       setTimeout(()=> {
@@ -30,8 +34,11 @@ const UserFeed = ({user}) => {
         setToastMessage('');
       },2000);
 
+      dispatch(removeOneFeed(_id));
+
     } catch(error) {
-      setError(error.message);
+      console.log(error, ' error')
+      setError(error.response.data.message);
     }
   };
 

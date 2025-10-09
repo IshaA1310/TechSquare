@@ -11,3 +11,4 @@ set Toast() for error & success with setTimeout().
 set Error() for catch.
 set Toast Message() for customize message directly show to UI.
 Completed API's Ignored, Accepted, Rejected, Interested.
+RemoveRequest() one 1️⃣ Requests from redux store 🏬
