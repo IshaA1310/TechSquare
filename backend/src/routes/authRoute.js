@@ -18,12 +18,22 @@ authRouter.post('/signup', async (req, res) => {
         password: hashPassword
       });
       await newUser.save();
-      res.status(200).send({message:'User created Successfully!'});
+
+      const token = await jwt.sign({ _id: newUser._id }, 'ADFHJKLIUYTREW98UKMNBV', { expiresIn: '1d' });
+      const data = {
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        email: newUser.email,
+        photoUrl: newUser.photoUrl,
+        age: newUser.age,
+        gender: newUser.gender
+      };
+      res.status(200).send({message: 'User created Successfully!', token: token, data: data });
     } else {
-      return res.status(401).send('Error found in Request!');
+      return res.status(401).send({ message: 'Error found in Request!' });
     }
   } catch(err) {
-    res.status(500).json({ message: 'Error from server', data: err});
+    res.status(500).json({ message: err.message});
   }
 });
 
@@ -33,33 +43,28 @@ authRouter.post('/login', async (req, res) => {
       const {email, password} = req.body;
 
       const user = await User.findOne({ email: email });
-      if (!user) return res.status(401).send('Your credentials are Invalid!');
+      if (!user) return res.status(401).send({ message: 'Your credentials are Invalid!' });
 
       const isCorrectPassword = await bcrypt.compare(password, user.password);
-      if(!isCorrectPassword) return res.status(401).send('Your Credentials are Invalid!');
+      if(!isCorrectPassword) return res.status(401).send({ message: 'Your Credentials are Invalid!' });
 
-      const token = jwt.sign({_id:user._id}, 'ADFHJKLIUYTREW98UKMNBV', {expiresIn: '1d'});
+      const token = jwt.sign({ _id: user._id }, 'ADFHJKLIUYTREW98UKMNBV', { expiresIn: '1d' });
 
       const data = {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        photoUrl: user.photoUrl
-      }
-      // return res.status(201).cookie(token).send({message: 'Login successfully!', token: token});
-      return res.status(201).send({ message: 'Login successfully', token: token, data: data});
+        photoUrl: user.photoUrl,
+        age: user.age,
+        gender: user.gender
+      };
 
+      return res.status(201).send({ message: 'Login successfully!', token: token, data: data });
     } else {
-      return res.status(401).send('Error found in Request!');
+      return res.status(401).send({ message: 'Error found in Request!' });
     }
   } catch (err) {
-    res.status(200).send({
-      message: 'Error from server!', 
-      // data: {
-      //   name: 'Isha',
-      //   photoUrl: 'https://static.vecteezy.com/system/resources/previews/044/419/658/non_2x/yellow-smiling-ball-wearing-a-straw-hat-in-a-sunny-field-of-flowers-showing-happiness-and-joy-in-nature-photo.jpeg'
-      // }
-    });
+    res.status(200).send({ message: err.message });
   }
 });
 
@@ -70,7 +75,7 @@ authRouter.patch('/logout', (req, res) => {
     });
     res.send({ message: 'Logout successfull!' });
   } catch(err) {
-    return res.status(500).send({ message: 'Error from server', data: null});
+    return res.status(500).send({ message: err.message });
   }
 })
 

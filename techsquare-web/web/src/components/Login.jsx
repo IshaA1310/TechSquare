@@ -26,8 +26,8 @@ const Login = () => {
       }, 2000);
       return navigate("/");
     } catch (err) {
-      setError(err.response.data);
-      console.log(err.response.data, 'error')
+      setError(err.response.data.message);
+      console.log(err.response.data.message, 'error')
     }
   }
   

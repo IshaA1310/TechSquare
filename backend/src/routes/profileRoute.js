@@ -13,7 +13,8 @@ profileRouter.get('/profile/view', userAuth, async (req, res) => {
       age: req.user.age,
       photoUrl: req.user.photoUrl,
       about: req.user.about,
-      skills: req.user.skills
+      skills: req.user.skills,
+      gender: req.user.gender
     }
     return res.status(200).send({ message: 'User found successfully', data: userData });
   } catch(error) {

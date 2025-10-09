@@ -1,19 +1,21 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
+import { addUser } from "../utils/userSlice";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 const Signup = () => {
 
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [email, setEmail] = useState();
-  const [age, setAge] = useState();
-  const [password, setPassword] = useState();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState('');
+  const [password, setPassword] = useState('');
   const [toast, setToast] = useState(false);
 
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleRegister = async () => {
     try {
       const res = await axios.post(BASE_URL + "/signup", {
@@ -23,11 +25,13 @@ const Signup = () => {
         age,
         password
       });
+      localStorage.setItem('token', res.data.token);
+      dispatch(addUser(res.data.data));
       setToast(true);
       setTimeout(() => {
         setToast(false);
       }, 2000);
-      // if(res) navigate('/login');
+      if(res) navigate('/profile');
     } catch (error) {
       console.error(error);
     }
