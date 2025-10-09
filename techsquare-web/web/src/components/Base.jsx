@@ -36,9 +36,12 @@ const Base = () => {
 
   return (
     <div>
-      <Navbar/>
-      <Outlet/>
-      <Footer/>
+      <div className="bg-[url(./assets/tech_bg.jpg)] bg-[length:1920px_1080px] bg-center bg-no-repeat bg-fixed min-h-screen">
+      {/* <div class="bg-[url(./assets/tech_bg.jpg)] bg-contain bg-center bg-no-repeat bg-fixed min-h-screen"> */}
+        <Navbar/>
+        <Outlet/>
+        <Footer/>
+      </div>
     </div>
   )
 }

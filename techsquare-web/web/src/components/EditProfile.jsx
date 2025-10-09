@@ -83,7 +83,7 @@ const EditProfile = () => {
   }, [user]);
 
   return (
-    (user && <div className="flex justify-center my-1 px-2">
+    (user && <div className="flex justify-center my-3 px-2">
       <div className="place-items-center-safe mx-2">
         <div className="card card-dash bg-base-300 w-96 mx-2 p-2">
           <div className="card-body">
@@ -107,9 +107,9 @@ const EditProfile = () => {
             <fieldset className="mb-2 p-0">
               <legend className="text-sm font-medium">Gender</legend>
               <div>
-                <input type="radio" name="radio-1" value="male" className="radio radio-primary mx-1" onChange={(e) => setGender(e.target.value)} />Male 
-                <input type="radio" name="radio-1" value="female" className="radio radio-primary mx-1" onChange={(e) => setGender(e.target.value)} />Female 
-                <input type="radio" name="radio-1" value="others" className="radio radio-primary mx-1" onChange={(e) => setGender(e.target.value)} />Others
+                <input type="radio" name="radio-1" value="male" className="radio radio-primary mx-1" checked={gender === 'male'} onChange={(e) => setGender(e.target.value)} />Male
+                <input type="radio" name="radio-1" value="female" className="radio radio-primary mx-1" checked={gender === 'female'} onChange={(e) => setGender(e.target.value)} />Female
+                <input type="radio" name="radio-1" value="others" className="radio radio-primary mx-1" checked={gender === 'others'} onChange={(e) => setGender(e.target.value)} />Others
               </div>
             </fieldset>
             <fieldset className="mb-2 p-0">
