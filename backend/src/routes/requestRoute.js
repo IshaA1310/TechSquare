@@ -38,7 +38,6 @@ requestRouter.post('/request/review/:status/:user', userAuth, async (req, res) =
   try {
     const {status, user} = req.params;
     const allowedStatus = ['Accepted', 'Rejected'];
-    console.log(user, ' user')
     if(!allowedStatus.includes(status)) return res.status(400).send({ message: 'Status Not Valid!' });
     const existUser = await User.findById(user);
     if(!existUser) return res.status(400).send({ message: 'User Not Found!' });

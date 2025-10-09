@@ -28,14 +28,12 @@ const Feed = () => {
     }
   }
 
-  if(!feed) return;
-
-  if(feed.length === 0) return <div className="flex justify-center m-20 text-xl font-bold">No More Users!</ div>
-
   useEffect(() => {
-   if(!feed) userFeed();
+    if(!feed) userFeed();
   }, []);
 
+  if(!feed) return;
+  if(feed.length === 0) return <div className="flex justify-center m-20 text-xl font-bold">No More Users!</ div>
   return (
 
     (feed && <div className="flex justify-center my-6">

@@ -65,7 +65,6 @@ authRouter.post('/login', async (req, res) => {
 
 authRouter.patch('/logout', (req, res) => {
   try {
-    console.log(req.headers.authorization, 'req.headers.authorization')
     res.cookie(req.headers.authorization, null, {
       expires: new Date(Date.now())
     });

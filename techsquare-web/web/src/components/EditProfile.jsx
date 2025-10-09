@@ -7,10 +7,10 @@ import { addUser } from "../utils/userSlice";
 import UserFeed from "./UserFeed";
 
 const EditProfile = () => {
+  const bearerToken = localStorage.getItem('token');
+  const user = useSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
-  const user = useSelector((store) => store.user);
 
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
@@ -20,7 +20,6 @@ const EditProfile = () => {
   const [photoUrl, setphotoUrl] = useState(user.photoUrl);
   const [error, setError] = useState('');
   const [toast, setToast] = useState(false);
-  const BearerToken = localStorage.getItem('token');
 
   const back = () => {
     navigate('/profile');
@@ -39,7 +38,7 @@ const EditProfile = () => {
       }
       const res = await axios.patch(BASE_URL + "/profile/edit", data, {
         headers: {
-          'authorization': BearerToken
+          'authorization': bearerToken
         },
         withCredentials: true
       });
@@ -55,58 +54,57 @@ const EditProfile = () => {
 
   const fetchUser = async () => {
     try {
-      if(!BearerToken) navigate('/login');
       const res = await axios.get(BASE_URL + '/profile/view', {
         headers: {
-          'Authorization': `${BearerToken}`
+          'authorization': bearerToken
         },
         withCredentials: true
       });
-      dispatch(addUser(res.data.data));
+      console.log(res.data.data, 'res')
+      // dispatch(addUser(res.data.data));
     } catch(err) {
-      if(err.status === 401 || err.status === 500) navigate("/login");
-      console.error(err);
+      console.log(err.message, ' error message');
     }
   }
 
   useEffect(() => {
-    if(!user) fetchUser();
+    fetchUser();
   }, []);
 
   return (
-    (user && <div className="flex justify-center my-2">
+    (user && <div className="flex justify-center my-1 px-2">
       <div className="place-items-center-safe mx-2">
-        <div className="card card-dash bg-base-300 w-96 mx-6">
+        <div className="card card-dash bg-base-300 w-96 mx-2 p-2">
           <div className="card-body">
             {/* <h2 className="card-title justify-center text-2xl">EDIT PROFILE</h2> */}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend text-base">FirstName</legend>
-              <input type="text" value={firstName} className="input" placeholder="Type here" onChange={(e) => setFirstName(e.target.value)} required />
+            <fieldset className="mb-2 p-0">
+              <legend className="text-sm font-medium">FirstName</legend>
+              <input type="text" value={firstName} className="input px-2 py-1 text-sm" placeholder="Type FirstName" onChange={(e) => setFirstName(e.target.value)} required />
             </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend text-base">LastName</legend>
-              <input type="text" value={lastName} className="input" placeholder="Type here" onChange={(e) => setLastName(e.target.value)} required />
+            <fieldset className="mb-2 p-0">
+              <legend className="text-sm font-medium">LastName</legend>
+              <input type="text" value={lastName} className="input px-2 py-1 text-sm" placeholder="Type LastName" onChange={(e) => setLastName(e.target.value)} required />
             </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend text-base">Photo Url</legend>
-              <input type="text" value={photoUrl} className="input" placeholder="Type here" onChange={(e) => setphotoUrl(e.target.value)} required />
+            <fieldset className="mb-2 p-0">
+              <legend className="text-sm font-medium">Photo Url</legend>
+              <input type="text" value={photoUrl} className="input px-2 py-1 text-sm" placeholder="Type Photo Url" onChange={(e) => setphotoUrl(e.target.value)} required />
             </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend text-base">Age</legend>
-              <input type="Number" value={age} className="input" placeholder="Type here" onChange={(e) => setAge(e.target.value)} required />
+            <fieldset className="mb-2 p-0">
+              <legend className="text-sm font-medium">Age</legend>
+              <input type="Number" value={age} className="input px-2 py-1 text-sm" placeholder="Type Age" onChange={(e) => setAge(e.target.value)} required />
             </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend text-base">Gender</legend>
+            <fieldset className="mb-2 p-0">
+              <legend className="text-sm font-medium">Gender</legend>
               <div>
                 <input type="radio" name="radio-1" value="male" className="radio radio-primary mx-1" onChange={(e) => setGender(e.target.value)} />Male 
                 <input type="radio" name="radio-1" value="female" className="radio radio-primary mx-1" onChange={(e) => setGender(e.target.value)} />Female 
                 <input type="radio" name="radio-1" value="others" className="radio radio-primary mx-1" onChange={(e) => setGender(e.target.value)} />Others
               </div>
             </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend text-base">About</legend>
-              <input type="text" value={about} className="input" placeholder="About" onChange={(e) => setAbout(e.target.value)} required />
-              {/* <textarea className="textarea" value={about} placeholder="About" onChange={(e) => setAbout(e.target.value)}></textarea> */}
+            <fieldset className="mb-2 p-0">
+              <legend className="text-sm font-medium">About</legend>
+              <input type="text" value={about} className="input px-2 py-1 text-sm" placeholder="Type About" onChange={(e) => setAbout(e.target.value)} required />
+              {/* <textarea className="textarea" value={about} placeholder="Type About" onChange={(e) => setAbout(e.target.value)}></textarea> */}
             </fieldset>
             <p className="text-red-500">{ error }</p>
             <div className="card-actions justify-center my-2">
@@ -116,8 +114,7 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
-      {/* {photoUrl, firstName, lastName, about, age, gender} */}
-      <UserFeed user={ {photoUrl, firstName, lastName, about, age, gender} }/>
+      {/* <UserFeed user={ {photoUrl, firstName, lastName, about, age, gender} }/> */}
       {toast && <div className="toast toast-top toast-center">
         <div className="alert alert-success">
           <span>Profile updated successfully.</span>
