@@ -11,7 +11,7 @@ const UserFeed = ({user}) => {
   const [error, setError] = useState('');
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const { photoUrl, firstName, lastName, about, age, gender, _id } = user;
+  const { photoUrl, firstName, lastName, about, age, gender, _id, profile } = user;
 
   const handleRequest = async(request) => {
     try {
@@ -45,9 +45,9 @@ const UserFeed = ({user}) => {
   return (
     <div>
       <div className="card bg-base-200 w-70 shadow-sm">
-        <figure>
+        {photoUrl && <figure>
           <img src={photoUrl} alt="Photo" />
-        </figure>
+        </figure>}
         <div className="card-body">
           <h2 className="card-title">
             {firstName + " " + lastName}
@@ -57,10 +57,10 @@ const UserFeed = ({user}) => {
             {age && gender && <p>{age}, {gender}</p>}
             <p>{about}</p>
           </div>
-          <div className="card-actions justify-end">
+          {!profile && <div className="card-actions justify-end">
             <button className="btn btn-secondary" onClick={()=>handleRequest('Ignore')}>Ignore</button>
             <button className="btn btn-primary" onClick={()=>handleRequest('Interested')}>Interested</button>
-          </div>
+          </div>}
         </div>
       </div>
       <p className="text-red-500">{error}</p>

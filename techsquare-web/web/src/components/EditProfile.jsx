@@ -9,15 +9,16 @@ import UserFeed from "./UserFeed";
 const EditProfile = () => {
   const bearerToken = localStorage.getItem('token');
   const user = useSelector((store) => store.user);
+  const profile = 'profile';
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [age, setAge] = useState(user.age);
-  const [gender, setGender] = useState(user.gender);
-  const [about, setAbout] = useState(user.about);
-  const [photoUrl, setphotoUrl] = useState(user.photoUrl);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
+  const [about, setAbout] = useState('');
+  const [photoUrl, setphotoUrl] = useState('');
   const [error, setError] = useState('');
   const [toast, setToast] = useState(false);
 
@@ -60,8 +61,7 @@ const EditProfile = () => {
         },
         withCredentials: true
       });
-      console.log(res.data.data, 'res')
-      // dispatch(addUser(res.data.data));
+      dispatch(addUser(res.data.data));
     } catch(err) {
       console.log(err.message, ' error message');
     }
@@ -70,6 +70,17 @@ const EditProfile = () => {
   useEffect(() => {
     fetchUser();
   }, []);
+
+  useEffect(()=> {
+    if(user) {
+      setFirstName(user.firstName || '');
+      setLastName(user.lastName || '');
+      setAge(user.age || '');
+      setphotoUrl(user.photoUrl || '');
+      setGender(user.gender || '');
+      setAbout(user.about || '');
+    }
+  }, [user]);
 
   return (
     (user && <div className="flex justify-center my-1 px-2">
@@ -114,7 +125,7 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
-      {/* <UserFeed user={ {photoUrl, firstName, lastName, about, age, gender} }/> */}
+      <UserFeed user={ { photoUrl, firstName, lastName, about, age, gender, profile } }/>
       {toast && <div className="toast toast-top toast-center">
         <div className="alert alert-success">
           <span>Profile updated successfully.</span>
