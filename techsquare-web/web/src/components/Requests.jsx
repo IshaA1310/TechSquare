@@ -1,13 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
-import { addRequest } from "../utils/requestSlice";
+import { addRequest, removeRequest } from "../utils/requestSlice";
 import { useEffect, useState } from "react";
 import axios from "axios";
 const bearerToken = localStorage.getItem('token');
 
 const Requests = () => {
+
   const requests = useSelector((store) => store.requests);
   const dispatch = useDispatch();
+
   const [error, setError] = useState('');
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -40,6 +42,7 @@ const Requests = () => {
       });
       setToastMessage(res.data.message);
       setToast(true);
+      dispatch(removeRequest(id));
       setTimeout(()=> {
         setToast(false);
         setToastMessage('');
@@ -55,7 +58,12 @@ const Requests = () => {
 
   useEffect(() => {
     fetchRequests();
-  }, [])
+  }, []);
+
+  if(!requests) return;
+
+  if(requests.length === 0) return <div className="flex justify-center m-20 text-xl text-red-500 font-bold">No Requests Found!</ div>
+
   return (
     (requests && <div>
       <li className="p-4 pb-2 text-xl text-center tracking-wide">Connection Requests</li>

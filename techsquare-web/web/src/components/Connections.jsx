@@ -29,7 +29,6 @@ const Connections = () => {
     fetchConnections();
   },[])
 
-  console.log(connections, ' connections')
   if(!connections) return;
 
   if(connections.length === 0) return <div className="flex justify-center m-20 text-xl text-red-500 font-bold">No Connections Found!</ div>
@@ -52,11 +51,6 @@ const Connections = () => {
           </li>
         ))}
       </ul>
-      <div className="join">
-        <button className="join-item btn">«</button>
-        <button className="join-item btn">Page 22</button>
-        <button className="join-item btn">»</button>
-      </div>
       <p className="text-red-500">{error}</p>
     </div>)
   )

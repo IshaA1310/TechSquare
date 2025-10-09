@@ -5,7 +5,7 @@ import { BASE_URL } from "../utils/constants"
 import { removeUser } from "../utils/userSlice"
 import { removeFeed } from "../utils/feedSlice"
 import { removeConnection } from "../utils/connectionSlice"
-import { removeRequest } from "../utils/requestSlice"
+import { removeRequests } from "../utils/requestSlice"
 
 const Navbar = () => {
 
@@ -26,7 +26,7 @@ const Navbar = () => {
       dispatch(removeUser());
       dispatch(removeFeed());
       dispatch(removeConnection());
-      dispatch(removeRequest());
+      dispatch(removeRequests());
       return navigate('/login');
 
     } catch(error) {
