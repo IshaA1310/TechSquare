@@ -4,7 +4,7 @@ Updated status enum value with firstletter uppercase.
 updated send() -> json format send({});
 missed await 🫸while db call.
 
-🕸️FRONTEND SIDE 🕸️
+🕸️ FRONTEND SIDE 🕸️
 Connection Routing -> connection.jsx(friends lists) -> connectionSlice -> app Store fetch -> disptach() -> selector()
 Requests Routing -> Requests.jsx(List of those who sends requests to me) -> Request Slice -> app store fetch -> dispatch() -> selector
 set Toast() for error & success with setTimeout().
