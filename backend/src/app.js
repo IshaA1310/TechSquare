@@ -19,8 +19,9 @@ const cors = require('cors');
 // 🛠️ Trust NGINX as reverse proxy
 app.set('trust proxy', true);
 
+// origin: 'http://localhost:5173',
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://16.171.173.170',
     credentials: true
 }));
 
