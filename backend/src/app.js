@@ -16,6 +16,9 @@ const cors = require('cors');
 //     res.send('Hello');
 // })
 
+// 🛠️ Trust NGINX as reverse proxy
+app.set('trust proxy', true);
+
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
