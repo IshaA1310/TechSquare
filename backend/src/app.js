@@ -9,6 +9,7 @@ const userRouter = require('./routes/userRoute');
 const profileRouter = require('./routes/profileRoute');
 const user = require('./models/user');
 const cors = require('cors');
+require('dotenv').config();
 // Route Handlers
 
 // app.use('/', (req, res,next) => {
@@ -19,9 +20,9 @@ const cors = require('cors');
 // 🛠️ Trust NGINX as reverse proxy
 app.set('trust proxy', true);
 
-// origin: 'http://localhost:5173',
 app.use(cors({
-    origin: 'http://16.171.173.170',
+    origin: 'http://localhost:5173',
+    // origin: 'http://16.171.173.170',
     credentials: true
 }));
 
@@ -46,7 +47,7 @@ app.use('/', profileRouter);
 
 connectdb().then(()=> {
     console.log('connected to database successfully');
-    app.listen(7777, (req, res) => {
+    app.listen(process.env.PORT, (req, res) => {
         console.log('server is running on port 7777');
     })
 }).catch((err) => {

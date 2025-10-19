@@ -7,7 +7,7 @@ const userAuth = async function(req, res, next) {
     const token = req.headers.authorization;
     if(!token) return res.status(401).send('Please Login!'); //unauthorized
 
-    const decoded_id = jwt.verify(token, 'ADFHJKLIUYTREW98UKMNBV');
+    const decoded_id = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
     const user = await User.findById(decoded_id);
     if(!user) return res.status(401).send('Please Register Yourself!');

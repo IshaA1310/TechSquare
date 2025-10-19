@@ -19,7 +19,7 @@ authRouter.post('/signup', async (req, res) => {
       });
       await newUser.save();
 
-      const token = await jwt.sign({ _id: newUser._id }, 'ADFHJKLIUYTREW98UKMNBV', { expiresIn: '1d' });
+      const token = await jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
       const data = {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
@@ -48,7 +48,7 @@ authRouter.post('/login', async (req, res) => {
       const isCorrectPassword = await bcrypt.compare(password, user.password);
       if(!isCorrectPassword) return res.status(401).send({ message: 'Your Credentials are Invalid!' });
 
-      const token = jwt.sign({ _id: user._id }, 'ADFHJKLIUYTREW98UKMNBV', { expiresIn: '1d' });
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
 
       const data = {
         firstName: user.firstName,

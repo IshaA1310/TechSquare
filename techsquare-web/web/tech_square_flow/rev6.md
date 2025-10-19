@@ -34,3 +34,4 @@ enable port 80 at our instance
 http://16.171.173.170/
 
 deployment - run , ngnix, http server, enable port, awss ec-2 instance
+http://techsquare.work.gd/api/

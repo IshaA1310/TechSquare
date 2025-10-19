@@ -5,6 +5,7 @@ const User = require('../models/user');
 const userAuth = require('../middleware/userAuth');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
+const sendEmail = require('../utils/sesEmail');
 
 requestRouter.post('/connection/request/:status/:toUser', userAuth, async function(req, res) {
   try {
@@ -28,6 +29,11 @@ requestRouter.post('/connection/request/:status/:toUser', userAuth, async functi
       status
     }); // new instance
     connectionReq = await connectionReq.save(); // save into database
+    const senmail = await sendEmail.run(
+      "A new friend request from " + req.user.firstName,
+      req.user.firstName + " is " + status + " in " + toUser.firstName
+    );
+    console.log(senmail, 'sen sen')
     return res.status(201).send({ message: `${status} Request has Sent Successfully!`});
   } catch (err) {
     return res.status(500).send({ message: err.message });
