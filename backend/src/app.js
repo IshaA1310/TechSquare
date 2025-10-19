@@ -10,6 +10,7 @@ const profileRouter = require('./routes/profileRoute');
 const user = require('./models/user');
 const cors = require('cors');
 require('dotenv').config();
+require('./utils/cronJob');
 // Route Handlers
 
 // app.use('/', (req, res,next) => {

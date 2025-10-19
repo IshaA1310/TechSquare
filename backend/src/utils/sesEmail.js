@@ -3,7 +3,6 @@ const { SendEmailCommand } = require("@aws-sdk/client-ses");
 const { sesClient } = require("./sesClient.js");
 
 const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
-  console.log(toAddress, ' toAddress', fromAddress, ' fromAddress')
   return new SendEmailCommand({
     Destination: {
       /* required */
@@ -45,7 +44,8 @@ const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
 const run = async (subject, body) => {
   const sendEmailCommand = createSendEmailCommand(
     "maltiaggarwal306@gmail.com",
-    "isha@techsquare.work.gd",
+    "maltiaggarwal306@gmail.com",
+    // "isha@techsquare.work.gd",
     subject,
     body
     // "support@techsquare.work.gd",
