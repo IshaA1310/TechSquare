@@ -11,6 +11,9 @@ import EditProfile from "./components/EditProfile"
 import UserList from "./components/UserList"
 import Connections from "./components/Connections"
 import Requests from "./components/Requests"
+import Premium from "./components/Premium"
+import PrivacyPolicy from "./components/PrivacyPolicy"
+import TermsAndConditions from "./components/TermsAndConditions"
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
               <Route path="/userList" element={<UserList/>}></Route>
               <Route path="/connections" element={<Connections/>}></Route>
               <Route path="/requests" element={<Requests/>}></Route>
+              <Route path="/premium" element={<Premium/>}></Route>
+              <Route path="/privacyPolicy" element={<PrivacyPolicy/>}></Route>
+              <Route path="/termsConditions" element={<TermsAndConditions/>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

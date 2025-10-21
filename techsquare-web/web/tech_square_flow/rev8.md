@@ -36,3 +36,7 @@ then request for production mail request.
 - Write code for SESClient
 - Write code for Sending email address
 - Make the email dynamic by passing more params to the run function
+
+
+sudo apt update
+sudo apt install certbot python3-certbot-nginx -y
