@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -9,7 +10,6 @@ const userRouter = require('./routes/userRoute');
 const profileRouter = require('./routes/profileRoute');
 const user = require('./models/user');
 const cors = require('cors');
-require('dotenv').config();
 require('./utils/cronJob');
 // Route Handlers
 
@@ -22,7 +22,7 @@ require('./utils/cronJob');
 app.set('trust proxy', true);
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:5173' : ['https://techsquare.work.gd/', 'http://techsquare.work.gd/'],
     // origin: 'http://16.171.173.170',
     credentials: true
 }));
