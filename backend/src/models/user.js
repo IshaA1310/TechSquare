@@ -9,7 +9,9 @@ const userSchema = new mongoose.Schema({
   photoUrl: {type: String, default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&s'},
   about: {type: String, default: 'This is a default about'},
   skills: {type: [String], default: ['Javascript', 'HTML', 'CSS']},
-  gender: {type: String, enum: ['male', 'female', 'others'], default: 'male'}
+  gender: {type: String, enum: ['male', 'female', 'others'], default: 'male'},
+  membershipType: { type: String, default: '' },
+  isPremium: { type: Boolean, deafult: false, enum: [true, false] }
 });
 
 const User = mongoose.model('User', userSchema);

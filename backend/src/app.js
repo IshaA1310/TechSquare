@@ -8,22 +8,15 @@ const authRouter = require('./routes/authRoute');
 const requestRouter = require('./routes/requestRoute');
 const userRouter = require('./routes/userRoute');
 const profileRouter = require('./routes/profileRoute');
+const paymentRouter = require('./routes/paymentroute');
 const user = require('./models/user');
 const cors = require('cors');
 // require('./utils/cronJob');
 // Route Handlers
-
-// app.use('/', (req, res,next) => {
-//     next();
-//     res.send('Hello');
-// })
-
-// 🛠️ Trust NGINX as reverse proxy
 app.set('trust proxy', true);
 
 app.use(cors({
     origin: process.env.NODE_ENV === 'development' ? 'http://localhost:5173' : ['https://techsquare.work.gd/', 'http://techsquare.work.gd/'],
-    // origin: 'http://16.171.173.170',
     credentials: true
 }));
 
@@ -45,7 +38,7 @@ app.use('/', authRouter);
 app.use('/', requestRouter);
 app.use('/', userRouter);
 app.use('/', profileRouter);
-
+app.use('/', paymentRouter)
 connectdb().then(()=> {
     console.log('connected to database successfully');
     app.listen(process.env.PORT, (req, res) => {
