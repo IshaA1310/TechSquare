@@ -7,6 +7,7 @@ const SPECIFIC_FIELDS = ['firstName', 'lastName', 'age', 'skills', 'photoUrl', '
 profileRouter.get('/profile/view', userAuth, async (req, res) => {
   try {
     const userData = {
+      _id: req.user._id,
       firstName: req.user.firstName,
       lastName: req.user.lastName,
       email: req.user.email,

@@ -14,6 +14,7 @@ import Requests from "./components/Requests"
 import Premium from "./components/Premium"
 import PrivacyPolicy from "./components/PrivacyPolicy"
 import TermsAndConditions from "./components/TermsAndConditions"
+import Chat from "./components/Chat"
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
               <Route path="/premium" element={<Premium/>}></Route>
               <Route path="/privacyPolicy" element={<PrivacyPolicy/>}></Route>
               <Route path="/termsConditions" element={<TermsAndConditions/>}></Route>
+              <Route path="/chat/:targetUserId" element={<Chat/>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

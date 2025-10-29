@@ -11,6 +11,10 @@ const profileRouter = require('./routes/profileRoute');
 const paymentRouter = require('./routes/paymentroute');
 const user = require('./models/user');
 const cors = require('cors');
+const http = require('http');
+const { initializeSocket } = require('./utils/socket');
+const chatRouter = require('./routes/chatRoute');
+
 // require('./utils/cronJob');
 // Route Handlers
 app.set('trust proxy', true);
@@ -38,10 +42,15 @@ app.use('/', authRouter);
 app.use('/', requestRouter);
 app.use('/', userRouter);
 app.use('/', profileRouter);
-app.use('/', paymentRouter)
+app.use('/', paymentRouter);
+app.use('/', chatRouter)
+
+const server = http.createServer(app);
+initializeSocket(server);
+
 connectdb().then(()=> {
     console.log('connected to database successfully');
-    app.listen(process.env.PORT, (req, res) => {
+    server.listen(process.env.PORT, (req, res) => {
         console.log('server is running on port 7777');
     })
 }).catch((err) => {

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnection } from "../utils/connectionSlice";
 import { BASE_URL } from "../utils/constants";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
 
@@ -39,14 +40,17 @@ const Connections = () => {
       <ul className="list bg-base-200 rounded-box shadow-md">
         {connections.map((connection, index) => (
           <li key={index} className="list-row justify-between p-4 border-b-8 border-gray-100">
-              <img className="size-10 rounded-box" src={connection.photoUrl} alt={connection.name} />
+            <img className="size-10 rounded-box" src={connection.photoUrl} alt={connection.name} />
             <div>
               <div className="text-xs uppercase font-semibold">{connection.firstName} {connection.lastName}</div>
               <div className="text-xs font-semibold opacity-90">{connection.age}, {connection.gender}</div>
               <div className="text-xs">{connection.about}</div>
             </div>
             <div className="flex items-center uppercase gap-2">
-                <div>{connection.age},  {connection.gender} </div>
+              {/* <div>{connection.age},  {connection.gender} </div> */}
+              <Link to={"/chat/" + connection._id }>
+                <button className="btn btn-primary">CHAT</button>
+              </Link>
             </div>
           </li>
         ))}
